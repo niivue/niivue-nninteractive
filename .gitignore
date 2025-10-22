@@ -1,0 +1,10 @@
+
+# pixi environments
+.pixi
+*.egg-info
+.DS_Store
+*.cpython*
+__pycache__/
+models/
+*.log
+.coverage

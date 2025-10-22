@@ -1,0 +1,29 @@
+[project]
+authors = [{ name = "Taylor Hanayik", email = "hanayik@gmail.com" }]
+description = "An interactive segmentation application that combines NiiVue and nnInteractive"
+name = "niivue-nninteractive"
+requires-python = ">= 3.11,<3.13"
+version = "0.1.0"
+dependencies = [
+    "nninteractive>=1.0.1,<2",
+    "fastapi[standard]>=0.116.1,<0.117",
+    "requests>=2.32.4,<3",
+    "pytest>=8.4.1,<9",
+    "pytest-cov>=6.0.0,<7",
+]
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.pypi-dependencies]
+niivue_nninteractive = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+dev = "fastapi dev src/niivue_nninteractive/api.py --host 0.0.0.0 --port 8000"
+test = "pytest tests/ -v"
+test-coverage-term = "pytest tests/ --cov=src --cov-report=term-missing"
