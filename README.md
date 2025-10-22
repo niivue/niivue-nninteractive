@@ -14,7 +14,7 @@ An interactive segmentation application that combines [nnInteractive](https://gi
 ### Clone the Repository
 
 ```bash
-git clone git@github.com:hanayik/niivue-nninteractive.git
+git clone git@github.com:niivue/niivue-nninteractive.git
 cd niivue-nninteractive
 ```
 
