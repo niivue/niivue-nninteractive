@@ -9,6 +9,8 @@ import {
 } from "@niivue/niivue";
 import { NiivueNNInteractive } from "../niivue-nninteractive";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface UseNiivueInstanceProps {
   nvopts: Partial<NVConfigOptions>;
   onCanvasReady?: (canvas: HTMLCanvasElement, niivue: Niivue) => void;
@@ -39,7 +41,13 @@ export const useNiivueInstance = ({
       onSegmentationComplete,
       onError,
     }),
-    [onCanvasReady, onImageLoaded, onUserIdReceived, onSegmentationComplete, onError]
+    [
+      onCanvasReady,
+      onImageLoaded,
+      onUserIdReceived,
+      onSegmentationComplete,
+      onError,
+    ],
   );
 
   // Initialize Niivue instance once
@@ -61,18 +69,18 @@ export const useNiivueInstance = ({
     (node: HTMLCanvasElement | null) => {
       if (node && !isInitializedRef.current) {
         isInitializedRef.current = true;
-        
+
         const setupCanvas = async (canvas: HTMLCanvasElement) => {
           const niivue = nvRef.current;
           if (!niivue) return;
-          
+
           niivue.attachToCanvas(canvas);
           niivue.loadVolumes([{ url: "./FLAIR.nii.gz" }]);
 
           // Create NiivueNNInteractive instance
           const nnInt = new NiivueNNInteractive({
             niivue,
-            apiUrl: "http://192.168.10.102:8000/segment",
+            apiUrl: `${API_URL}/segment`,
             onUserIdReceived: stableCallbacks.onUserIdReceived,
             onSegmentationComplete: stableCallbacks.onSegmentationComplete,
             onError: stableCallbacks.onError,
@@ -103,7 +111,7 @@ export const useNiivueInstance = ({
         setupCanvas(node);
       }
     },
-    [stableCallbacks]
+    [stableCallbacks],
   );
 
   return {
@@ -112,3 +120,4 @@ export const useNiivueInstance = ({
     canvasRef,
   };
 };
+
